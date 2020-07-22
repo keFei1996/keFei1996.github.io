@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>深入理解js原型链 | BLOG</title>
+    <meta name="generator" content="VuePress 1.5.0">
+    
+    <meta name="description" content="Curriculum Vitae">
+    <link rel="preload" href="/assets/css/0.styles.5ce1744f.css" as="style"><link rel="preload" href="/assets/js/app.5229a9c5.js" as="script"><link rel="preload" href="/assets/js/2.d0c61049.js" as="script"><link rel="preload" href="/assets/js/25.b988f897.js" as="script"><link rel="prefetch" href="/assets/js/10.01fd0c45.js"><link rel="prefetch" href="/assets/js/11.e59609e1.js"><link rel="prefetch" href="/assets/js/12.b28e5429.js"><link rel="prefetch" href="/assets/js/13.2720234c.js"><link rel="prefetch" href="/assets/js/14.0b33dd18.js"><link rel="prefetch" href="/assets/js/15.e4cad622.js"><link rel="prefetch" href="/assets/js/16.407e4663.js"><link rel="prefetch" href="/assets/js/17.7fe2abee.js"><link rel="prefetch" href="/assets/js/18.64d40d69.js"><link rel="prefetch" href="/assets/js/19.ae3ca64a.js"><link rel="prefetch" href="/assets/js/20.09a4c0e4.js"><link rel="prefetch" href="/assets/js/21.5646fdcd.js"><link rel="prefetch" href="/assets/js/22.aff186f1.js"><link rel="prefetch" href="/assets/js/23.c419c197.js"><link rel="prefetch" href="/assets/js/24.0bf626b6.js"><link rel="prefetch" href="/assets/js/26.f1f04fec.js"><link rel="prefetch" href="/assets/js/27.c73a140c.js"><link rel="prefetch" href="/assets/js/28.f429846b.js"><link rel="prefetch" href="/assets/js/29.4cf38d3d.js"><link rel="prefetch" href="/assets/js/3.1b1aead2.js"><link rel="prefetch" href="/assets/js/30.f2c011aa.js"><link rel="prefetch" href="/assets/js/31.fc83628d.js"><link rel="prefetch" href="/assets/js/32.e8d14d93.js"><link rel="prefetch" href="/assets/js/4.dc1b9d45.js"><link rel="prefetch" href="/assets/js/5.d8b7d05d.js"><link rel="prefetch" href="/assets/js/6.58321c59.js"><link rel="prefetch" href="/assets/js/7.32db407e.js"><link rel="prefetch" href="/assets/js/8.0b662fca.js"><link rel="prefetch" href="/assets/js/9.54be5433.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.5ce1744f.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">BLOG</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/learning-notes/" class="nav-link router-link-active">
+  技术
+</a></div><div class="nav-item"><a href="/interview/" class="nav-link">
+  面试题
+</a></div><div class="nav-item"><a href="/about/" class="nav-link">
+  关于
+</a></div><div class="nav-item"><a href="https://github.com/keFei1996" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/learning-notes/" class="nav-link router-link-active">
+  技术
+</a></div><div class="nav-item"><a href="/interview/" class="nav-link">
+  面试题
+</a></div><div class="nav-item"><a href="/about/" class="nav-link">
+  关于
+</a></div><div class="nav-item"><a href="https://github.com/keFei1996" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>JS</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/learning-notes/js/DOM事件机制.html" class="sidebar-link">DOM事件机制</a></li><li><a href="/learning-notes/js/ES6学习笔记.html" class="sidebar-link">ES6学习笔记</a></li><li><a href="/learning-notes/js/http协议类.html" class="sidebar-link">http协议类</a></li><li><a href="/learning-notes/js/promisegenerator.html" class="sidebar-link">promise</a></li><li><a href="/learning-notes/js/webpack配置及使用webpack优化项目实战.html" class="sidebar-link">webpack配置及使用webpack优化项目实战</a></li><li><a href="/learning-notes/js/深入理解CSS盒模型.html" class="sidebar-link">深入理解CSS盒模型</a></li><li><a href="/learning-notes/js/深入理解js原型链.html" class="active sidebar-link">深入理解js原型链</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/learning-notes/js/深入理解js原型链.html#用自己的方式理解constructor、prototype、-proto-和原型链" class="sidebar-link">用自己的方式理解constructor、prototype、_proto_和原型链</a></li></ul></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Css</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Vue</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>微信小程序</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Node.js</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>React</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>插件</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="深入理解js原型链"><a href="#深入理解js原型链" class="header-anchor">#</a> 深入理解js原型链</h1> <h2 id="用自己的方式理解constructor、prototype、-proto-和原型链"><a href="#用自己的方式理解constructor、prototype、-proto-和原型链" class="header-anchor">#</a> 用自己的方式理解constructor、prototype、__proto__和原型链</h2> <p>为了更轻松、更有动力地理解透，我采用从constructor到__proto__原型链一步步“拆解”的方式去理解，希望有好的效果。文章内容如下：</p> <p>1.先理解为什么“函数即对象”<br>
+2.constructor其实很纯粹<br>
+3.prototype是为何而出现<br>
+4.真正的constructor属性藏在哪<br>
+5.__proto__让实例能找到自己的原型对象<br>
+6.究竟何为原型链<br>
+7.原型链引出新的继承方式<br>
+8.学了要用系列 | 手写一个new<br>
+9.总结</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/learning-notes/js/深入理解CSS盒模型.html" class="prev">
+        深入理解CSS盒模型
+      </a></span> <span class="next"><a href="/learning-notes/css/瀑布流的5种实现方式.html">
+        object-fit的理解
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.5229a9c5.js" defer></script><script src="/assets/js/2.d0c61049.js" defer></script><script src="/assets/js/25.b988f897.js" defer></script>
+  </body>
+</html>
